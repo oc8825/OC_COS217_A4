@@ -22,7 +22,8 @@ int main(void)
     * contains should return FALSE
     * toString should return NULL
     */
-   printf(BDT_insert("1root/2child/3grandchild"));
+   temp = (BDT_insert("1root/2child/3grandchild"));
+   fprintf(stderr, "Checkpoint 3:\n%s\n", temp);
    assert(BDT_insert("1root/2child/3grandchild") == INITIALIZATION_ERROR);
    assert(BDT_contains("1root/2child/3grandchild") == FALSE);
    assert(BDT_rm("1root/2child/3grandchild") == INITIALIZATION_ERROR);
