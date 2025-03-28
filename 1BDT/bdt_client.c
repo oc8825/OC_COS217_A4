@@ -23,7 +23,7 @@ int main(void)
     * toString should return NULL
     */
    i = BDT_insert("1root/2child/3grandchild");
-   fprintf(stderr, "Checkpoint 1:\n%i\n", temp);
+   fprintf(stderr, "Checkpoint 1:\n%i\n", i);
    assert(BDT_insert("1root/2child/3grandchild") == INITIALIZATION_ERROR);
    assert(BDT_contains("1root/2child/3grandchild") == FALSE);
    assert(BDT_rm("1root/2child/3grandchild") == INITIALIZATION_ERROR);
