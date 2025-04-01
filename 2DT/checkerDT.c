@@ -125,5 +125,5 @@ boolean CheckerDT_isValid(boolean bIsInitialized, Node_T oNRoot,
    */
 
    /* Now checks invariants recursively at each node from the root. */
-   return CheckerDT_treeCheck(oNRoot, size_t ulCount);
+   return CheckerDT_treeCheck(oNRoot, ulCount);
 }
