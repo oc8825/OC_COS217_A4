@@ -16,6 +16,7 @@
 int main(void)
 {
    char *temp;
+   int i;
 
    /* Before the data structure is initialized:
     * insert, rm, and destroy should each return INITIALIZATION_ERROR
@@ -140,8 +141,9 @@ int main(void)
    assert(DT_insert("a/x") == SUCCESS);
    assert((temp = DT_toString()) != NULL);
    assert(!strcmp(temp, "a\na/x\na/y\n"));
-   fprintf(stderr, "Checkpoint Promotion:\n%s\n", temp);
    free(temp);
+   i = DT_rm("a/y");
+   fprintf(stderr, "Checkpoint Promotion:\n%i\n", i);
    assert(DT_rm("a/y") == SUCCESS);
    assert((temp = DT_toString()) != NULL);
    assert(!strcmp(temp, "a\na/x\n"));
