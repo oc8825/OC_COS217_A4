@@ -100,7 +100,6 @@ boolean CheckerDT_isValid(boolean bIsInitialized, Node_T oNRoot,
          fprintf(stderr, "Not initialized, but count is not 0\n");
          return FALSE;
       }
-
       if (oNRoot != NULL)
       {
          fprintf(stderr, "Not initialized, but root is not NULL\n");
@@ -108,13 +107,11 @@ boolean CheckerDT_isValid(boolean bIsInitialized, Node_T oNRoot,
       }
    }
 
-   /*
-   if (Node_getParent(oNRoot) != NULL)
+   if (Node_getParent(*oNRoot) != NULL)
    {
       fprintf(stderr, "Root has a parent\n");
       return FALSE;
    }
-   */
 
    /* Now checks invariants recursively at each node from the root. */
    return CheckerDT_treeCheck(oNRoot);
