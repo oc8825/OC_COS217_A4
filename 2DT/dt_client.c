@@ -16,7 +16,6 @@
 int main(void)
 {
    char *temp;
-   int i;
 
    /* Before the data structure is initialized:
     * insert, rm, and destroy should each return INITIALIZATION_ERROR
@@ -142,7 +141,6 @@ int main(void)
    assert((temp = DT_toString()) != NULL);
    assert(!strcmp(temp, "a\na/x\na/y\n"));
    free(temp);
-   fprintf(stderr, "%i", DT_rm("a/y"));
    assert(DT_rm("a/y") == SUCCESS);
    assert((temp = DT_toString()) != NULL);
    assert(!strcmp(temp, "a\na/x\n"));
