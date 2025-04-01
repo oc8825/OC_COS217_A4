@@ -56,12 +56,9 @@ boolean CheckerDT_Node_isValid(Node_T oNNode)
 static boolean CheckerDT_treeCheck(Node_T oNNode, size_t ulCount)
 {
    size_t ulIndex;
-   size_t uNodeCount = 0;
 
    if (oNNode != NULL)
    {
-      uNodeCount++;
-
       /* Sample check on each node: node must be valid */
       /* If not, pass that failure back up immediately */
       if (!CheckerDT_Node_isValid(oNNode))
@@ -81,15 +78,9 @@ static boolean CheckerDT_treeCheck(Node_T oNNode, size_t ulCount)
 
          /* if recurring down one subtree results in a failed check
             farther down, passes the failure back up immediately */
-         if (!CheckerDT_treeCheck(oNChild))
+         if (!CheckerDT_treeCheck(oNChild, ))
             return FALSE;
       }
-   }
-
-   if (uNodeCount != ulCount)
-   {
-      fprintf(stderr, "Node count mismatch: %zu != %zu\n", uNodeCount, ulCount);
-      return FALSE;
    }
 
    return TRUE;
