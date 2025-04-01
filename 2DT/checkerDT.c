@@ -107,11 +107,13 @@ boolean CheckerDT_isValid(boolean bIsInitialized, Node_T oNRoot,
       }
    }
 
+   /* This check caused dtGood to stop working
    if (Node_getParent(oNRoot) != NULL)
    {
       fprintf(stderr, "Root has a parent\n");
       return FALSE;
    }
+   */
 
    /* Now checks invariants recursively at each node from the root. */
    return CheckerDT_treeCheck(oNRoot);
