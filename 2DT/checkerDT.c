@@ -107,7 +107,7 @@ boolean CheckerDT_isValid(boolean bIsInitialized, Node_T oNRoot,
       }
    }
 
-   if (Node_getParent(*oNRoot) != NULL)
+   if (Node_getParent(oNRoot) != NULL)
    {
       fprintf(stderr, "Root has a parent\n");
       return FALSE;
