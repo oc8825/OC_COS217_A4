@@ -56,6 +56,8 @@ boolean CheckerDT_Node_isValid(Node_T oNNode)
 static boolean CheckerDT_treeCheck(Node_T oNNode)
 {
    size_t ulIndex;
+   size_t ulIndex1;
+   size_t ulIndex2;
 
    if (oNNode != NULL)
    {
@@ -81,10 +83,41 @@ static boolean CheckerDT_treeCheck(Node_T oNNode)
          if (!CheckerDT_treeCheck(oNChild))
             return FALSE;
       }
-   }
 
-   return TRUE;
+      /* Check for duplicate children */
+      for (ulIndex1 = 0; ulIndex1 < Node_getNumChildren(oNNode); ulIndex1++)
+      {
+         for (ulIndex2 = 0; ulIndex2 < Node_getNumChildren(oNNode); ulIndex2++)
+         {
+            Node_T oNChild1 = NULL;
+            Node_T oNChild2 = NULL;
+            int iStatus1 = Node_getChild(oNNode, ulIndex1, &oNChild1);
+            int iStatus2 = Node_getChild(oNNode, ulIndex2, &oNChild2);
+
+            if (iStatus1 != SUCCESS || iStatus2 != SUCCESS)
+            {
+               fprintf(stderr, "getNumChildren claims more children than getChild returns\n");
+               return FALSE;
+            }
+
+            if (ulIndex1 != ulIndex2 && Node_comparePath(Node_getPath(oNChild1), Node_getPath(oNChild2)) == 0)
+            {
+               fprintf(stderr, "Duplicate children found\n");
+               return FALSE;
+            }
+         }
+      }
+
+      return TRUE;
+   }
 }
+
+/*
+static boolean CheckerDT_checkUnique(Node_T oNNode)
+{
+   size_t ulIndex;
+
+} */
 
 /* see checkerDT.h for specification */
 boolean CheckerDT_isValid(boolean bIsInitialized, Node_T oNRoot,
@@ -120,5 +153,14 @@ boolean CheckerDT_isValid(boolean bIsInitialized, Node_T oNRoot,
    {
       return FALSE;
    }
+
+   /*
+   if (!CheckerDT_checkUnique(oNRoot))
+   {
+      return FALSE;
+
+   }
+   */
+
    return TRUE;
 }
