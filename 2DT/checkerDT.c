@@ -117,8 +117,8 @@ static boolean CheckerDT_treeCheck(Node_T oNNode)
             }
          }
       }
-      return TRUE;
    }
+   return TRUE;
 }
 
 /*
