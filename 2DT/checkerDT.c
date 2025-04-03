@@ -110,7 +110,7 @@ static boolean CheckerDT_treeCheck(Node_T oNNode)
                fprintf(stderr, "Children not in lexicographic order\n");
                return FALSE;
             }
-            if (ulIndex1 > ulIndex2 && Node_compare(oNChild1, oNChild2 < 0))
+            if (ulIndex1 > ulIndex2 && Node_compare(oNChild1, oNChild2) < 0)
             {
                fprintf(stderr, "Children not in lexicographic order\n");
                return FALSE;
