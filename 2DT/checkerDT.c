@@ -119,56 +119,57 @@ static boolean CheckerDT_treeCheck(Node_T oNNode)
       }
       return TRUE;
    }
+}
+
+/*
+static boolean CheckerDT_checkUnique(Node_T oNNode)
+{
+   size_t ulIndex;
+
+} */
+
+/* see checkerDT.h for specification */
+boolean CheckerDT_isValid(boolean bIsInitialized, Node_T oNRoot,
+                          size_t ulCount)
+{
+
+   /* Sample check on a top-level data structure invariant:
+      if the DT is not initialized, its count should be 0. */
+   if (!bIsInitialized)
+   {
+      if (ulCount != 0)
+      {
+         fprintf(stderr, "Not initialized, but count is not 0\n");
+         return FALSE;
+      }
+      if (oNRoot != NULL)
+      {
+         fprintf(stderr, "Not initialized, but root is not NULL\n");
+         return FALSE;
+      }
+   }
+
+   /* This check caused dtGood to stop working
+   if (Node_getParent(oNRoot) != NULL)
+   {
+      fprintf(stderr, "Root has a parent\n");
+      return FALSE;
+   }
+   */
+
+   /* Now checks invariants recursively at each node from the root. */
+   if (!CheckerDT_treeCheck(oNRoot))
+   {
+      return FALSE;
+   }
 
    /*
-   static boolean CheckerDT_checkUnique(Node_T oNNode)
+   if (!CheckerDT_checkUnique(oNRoot))
    {
-      size_t ulIndex;
+      return FALSE;
 
-   } */
-
-   /* see checkerDT.h for specification */
-   boolean CheckerDT_isValid(boolean bIsInitialized, Node_T oNRoot,
-                             size_t ulCount)
-   {
-
-      /* Sample check on a top-level data structure invariant:
-         if the DT is not initialized, its count should be 0. */
-      if (!bIsInitialized)
-      {
-         if (ulCount != 0)
-         {
-            fprintf(stderr, "Not initialized, but count is not 0\n");
-            return FALSE;
-         }
-         if (oNRoot != NULL)
-         {
-            fprintf(stderr, "Not initialized, but root is not NULL\n");
-            return FALSE;
-         }
-      }
-
-      /* This check caused dtGood to stop working
-      if (Node_getParent(oNRoot) != NULL)
-      {
-         fprintf(stderr, "Root has a parent\n");
-         return FALSE;
-      }
-      */
-
-      /* Now checks invariants recursively at each node from the root. */
-      if (!CheckerDT_treeCheck(oNRoot))
-      {
-         return FALSE;
-      }
-
-      /*
-      if (!CheckerDT_checkUnique(oNRoot))
-      {
-         return FALSE;
-
-      }
-      */
-
-      return TRUE;
    }
+   */
+
+   return TRUE;
+}
