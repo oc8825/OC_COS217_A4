@@ -84,7 +84,8 @@ static boolean CheckerDT_treeCheck(Node_T oNNode)
             return FALSE;
       }
 
-      /* Check for duplicate children */
+      /* Check for duplicate children, and that children are in
+      lexographical order */
       for (ulIndex1 = 0; ulIndex1 < Node_getNumChildren(oNNode); ulIndex1++)
       {
          for (ulIndex2 = 0; ulIndex2 < Node_getNumChildren(oNNode); ulIndex2++)
