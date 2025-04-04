@@ -107,7 +107,7 @@ static boolean CheckerDT_treeCheck(Node_T oNNode)
                return FALSE;
             }
 
-            /* Check for children out od lexographical order */
+            /* Check for children out of lexographical order */
             if (ulIndex1 < ulIndex2 && Path_comparePath(Node_getPath(oNChild1), Node_getPath(oNChild2)) > 0)
             {
                fprintf(stderr, "Children not in lexicographic order\n");
@@ -167,7 +167,8 @@ boolean CheckerDT_isValid(boolean bIsInitialized, Node_T oNRoot,
 {
 
    /* Sample check on a top-level data structure invariant:
-      if the DT is not initialized, its count should be 0. */
+      if the DT is not initialized, its count should be 0 and the
+      root should be null */
    if (!bIsInitialized)
    {
       if (ulCount != 0)
@@ -188,11 +189,13 @@ boolean CheckerDT_isValid(boolean bIsInitialized, Node_T oNRoot,
       return FALSE;
    }
 
+   /* Ensure manual count of number of nodes matches ulCount */
    if (CheckerDT_countNodes(oNRoot) != ulCount)
    {
       fprintf(stderr, "Count of nodes does not match internal count variable ulCount\n");
       return FALSE;
    }
 
+   /* Passed all invariant checks, we have a valid tree */
    return TRUE;
 }
