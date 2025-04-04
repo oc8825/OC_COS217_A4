@@ -127,12 +127,30 @@ static boolean CheckerDT_treeCheck(Node_T oNNode)
    return TRUE;
 }
 
-/*
-static boolean CheckerDT_checkUnique(Node_T oNNode)
+static size_t CheckerDT_countNodes(Node_T oNNode)
 {
+   size_t ulCount = 0;
    size_t ulIndex;
 
-} */
+   if (oNNode != NULL)
+   {
+      ulCount = 1;
+      for (ulIndex = 0; ulIndex < Node_getNumChildren(oNNode); ulIndex++)
+      {
+         Node_T oNChild = NULL;
+         int iStatus = Node_getChild(oNNode, ulIndex, &oNChild);
+
+         if (iStatus != SUCCESS)
+         {
+            fprintf(stderr, "getNumChildren claims more children than getChild returns\n");
+            return 0;
+         }
+
+         ulCount += Checker_DTcountNodes(oNChild);
+      }
+   }
+   return ulCount;
+}
 
 /* see checkerDT.h for specification */
 boolean CheckerDT_isValid(boolean bIsInitialized, Node_T oNRoot,
@@ -169,13 +187,11 @@ boolean CheckerDT_isValid(boolean bIsInitialized, Node_T oNRoot,
       return FALSE;
    }
 
-   /*
-   if (!CheckerDT_checkUnique(oNRoot))
+   if (CheckerDT_countNodes(oNRoot) != ulCount)
    {
+      fprintf(stderr, "Count of nodes does not match internal count variable ulCount\n");
       return FALSE;
-
    }
-   */
 
    return TRUE;
 }
