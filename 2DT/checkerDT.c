@@ -106,6 +106,7 @@ static boolean CheckerDT_treeCheck(Node_T oNNode)
                fprintf(stderr, "Duplicate children found\n");
                return FALSE;
             }
+            /*
             if (ulIndex1 < ulIndex2 && Node_compare(oNChild1, oNChild2) > 0)
             {
                fprintf(stderr, "Children not in lexicographic order\n");
@@ -117,6 +118,22 @@ static boolean CheckerDT_treeCheck(Node_T oNNode)
                return FALSE;
             }
             if (ulIndex1 == ulIndex2 && Node_compare(oNChild1, oNChild2) != 0)
+            {
+               fprintf(stderr, "Children not in lexicographic order\n");
+               return FALSE;
+            }
+            */
+            if (ulIndex1 < ulIndex2 && Path_comparePath(Node_getPath(oNChild1), Node_getPath(oNChild2)) > 0)
+            {
+               fprintf(stderr, "Children not in lexicographic order\n");
+               return FALSE;
+            }
+            if (ulIndex1 > ulIndex2 && Path_comparePath(Node_getPath(oNChild1), Node_getPath(oNChild2)) < 0)
+            {
+               fprintf(stderr, "Children not in lexicographic order\n");
+               return FALSE;
+            }
+            if (ulIndex1 == ulIndex2 && Path_comparePath(Node_getPath(oNChild1), Node_getPath(oNChild2)) != 0)
             {
                fprintf(stderr, "Children not in lexicographic order\n");
                return FALSE;
