@@ -146,7 +146,7 @@ static size_t CheckerDT_countNodes(Node_T oNNode)
             return 0;
          }
 
-         ulCount += Checker_DTcountNodes(oNChild);
+         ulCount += CheckerDT_countNodes(oNChild);
       }
    }
    return ulCount;
