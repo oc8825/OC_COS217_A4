@@ -84,8 +84,7 @@ static boolean CheckerDT_treeCheck(Node_T oNNode)
             return FALSE;
       }
 
-      /* Check for duplicate children, and that children are in
-      lexographical order */
+      /* Loop through all pairs of children*/
       for (ulIndex1 = 0; ulIndex1 < Node_getNumChildren(oNNode); ulIndex1++)
       {
          for (ulIndex2 = 0; ulIndex2 < Node_getNumChildren(oNNode); ulIndex2++)
@@ -101,11 +100,14 @@ static boolean CheckerDT_treeCheck(Node_T oNNode)
                return FALSE;
             }
 
+            /* Check for duplicate children */
             if (ulIndex1 != ulIndex2 && Node_compare(oNChild1, oNChild2) == 0)
             {
                fprintf(stderr, "Duplicate children found\n");
                return FALSE;
             }
+
+            /* Check for children out od lexographical order */
             if (ulIndex1 < ulIndex2 && Path_comparePath(Node_getPath(oNChild1), Node_getPath(oNChild2)) > 0)
             {
                fprintf(stderr, "Children not in lexicographic order\n");
@@ -127,6 +129,9 @@ static boolean CheckerDT_treeCheck(Node_T oNNode)
    return TRUE;
 }
 
+/* Recursively loops through every node, adding it to the overall
+count, and returns the total number of nodes found in the subtree
+rooted at oNNode */
 static size_t CheckerDT_countNodes(Node_T oNNode)
 {
    size_t ulCount = 0;
@@ -134,7 +139,10 @@ static size_t CheckerDT_countNodes(Node_T oNNode)
 
    if (oNNode != NULL)
    {
+      /* Count this node */
       ulCount = 1;
+
+      /* Recur on every child of oNNode */
       for (ulIndex = 0; ulIndex < Node_getNumChildren(oNNode); ulIndex++)
       {
          Node_T oNChild = NULL;
@@ -146,6 +154,7 @@ static size_t CheckerDT_countNodes(Node_T oNNode)
             return 0;
          }
 
+         /* Add count of all descendents to total count */
          ulCount += CheckerDT_countNodes(oNChild);
       }
    }
@@ -172,14 +181,6 @@ boolean CheckerDT_isValid(boolean bIsInitialized, Node_T oNRoot,
          return FALSE;
       }
    }
-
-   /* This check caused dtGood to stop working
-   if (Node_getParent(oNRoot) != NULL)
-   {
-      fprintf(stderr, "Root has a parent\n");
-      return FALSE;
-   }
-   */
 
    /* Now checks invariants recursively at each node from the root. */
    if (!CheckerDT_treeCheck(oNRoot))
