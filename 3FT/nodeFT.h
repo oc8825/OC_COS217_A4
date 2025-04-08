@@ -8,7 +8,8 @@
 /* A Node_T is a node in a File Tree */
 typedef struct node *Node_T;
 
-int Node_new(boolean isFile, Path_T oPPath, Node_T oNParent, Node_T *poNResult);
+int Node_new(boolean isFile, Path_T oPPath, Node_T oNParent,
+             Node_T *poNResult);
 
 size_t Node_free(Node_T oNNode);
 
