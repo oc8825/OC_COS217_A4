@@ -13,11 +13,20 @@
 #include "nodeFT.h"
 #include "ft.h"
 
+/*
+  A File Tree is a representation of a hierarchy of both directories
+  and files, represented as an AO with 3 state variables:
+*/
+
+/* 1. a flag for bring in an initialized state (TRUE) or not (FALSE) */
 static boolean bIsInitialized;
+/* 2. a pointer to the root node in the hierarchy */
 static Node_T oNRoot;
+/* 3. a counter of the number of nodes in the hierarchy */
 static size_t ulCount;
 
 /*
+  Private helper function for traversing through the File Tree
   Traverses the FT starting at the root as far as possible towards
   absolute path oPPath. If able to traverse, returns an int SUCCESS
   status and sets *poNFurthest to the furthest node reached (which may
@@ -74,6 +83,13 @@ static int FT_traversePath(Path_T oPPath, Node_T *poNFurthest)
         }
         if (Node_hasChild(oNCurr, oPPrefix, &ulChildID))
         {
+            /* We found an ancestor that's a file, there won't be
+            any children below this */
+            if (Node_isFile(oNChild))
+            {
+                return NOT_A_DIRECTORY;
+            }
+
             /* go to that child and continue with next prefix */
             Path_free(oPPrefix);
             oPPrefix = NULL;
@@ -99,6 +115,7 @@ static int FT_traversePath(Path_T oPPath, Node_T *poNFurthest)
 }
 
 /*
+  Private helper function for finding a specific node in the FT
   Traverses the FT to find a node with absolute path pcPath. Returns a
   int SUCCESS status and sets *poNResult to be the node, if found.
   Otherwise, sets *poNResult to NULL and returns with status:
@@ -157,10 +174,18 @@ static int FT_findNode(const char *pcPath, Node_T *poNResult)
     return SUCCESS;
 }
 
-/* Helper function for adding all parts of a path to the tree as
-directories. */
-/* to use: just return this for insertDir, do this for insertFile, ensure
-success, modify last node to be file */
+/*
+  Private helper function for adding all new parts of pcPath to the
+  FT as directories
+  Inserts a new directory into the FT with absolute path pcPath.
+  Returns SUCCESS if the new directory is inserted successfully.
+  Otherwise, returns:
+  * INITIALIZATION_ERROR if the FT is not in an initialized state
+  * BAD_PATH if pcPath does not represent a well-formatted path
+  * CONFLICTING_PATH if the root exists but is not a prefix of pcPath
+  * ALREADY_IN_TREE if pcPath is already in the FT
+  * MEMORY_ERROR if memory could not be allocated to complete request
+*/
 static int FT_insertAllDirectories(const char *pcPath, Node_T *finalNode)
 {
     int iStatus;
@@ -310,6 +335,12 @@ int FT_insertFile(const char *pcPath, void *pvContents,
 
     assert(pcPath != NULL);
 
+    /* Can't insert a file at the root */
+    if (ulCount == 0)
+    {
+        return CONFLICING_PATH;
+    }
+
     int iStatus = FT_insertAllDirectories(pcPath, &oNFileNode);
     if (iStatus != SUCCESS)
     {
@@ -455,6 +486,7 @@ int FT_destroy(void)
 }
 
 /*
+  Private helper method to fascilitate FT_toString()
   Performs a pre-order traversal of the tree rooted at n, placing
   files before directories at the same level. Inserts each payload to
   DynArray_T d beginning at index i. Returns the next unused index in
@@ -500,6 +532,7 @@ static size_t FT_preOrderTraversal(Node_T n, DynArray_T d, size_t i)
 }
 
 /*
+  Private helper method to fascilitate FT_toString()
   Alternate version of strlen that uses pulAcc as an in-out parameter
   to accumulate a string length, rather than returning the length of
   oNNode's path, and also always adds one addition byte to the sum.
@@ -513,9 +546,10 @@ static void FT_strlenAccumulate(Node_T oNNode, size_t *pulAcc)
 }
 
 /*
- Alternate version of strcat that inverts the typical argument
- order, appending oNNode's path onto pcAcc, and also always adds one
- newline at the end of the concatenated string.
+  Private helper method to fascilitate FT_toString()
+  Alternate version of strcat that inverts the typical argument
+  order, appending oNNode's path onto pcAcc, and also always adds one
+  newline at the end of the concatenated string.
 */
 static void FT_strcatAccumulate(Node_T oNNode, char *pcAcc)
 {
