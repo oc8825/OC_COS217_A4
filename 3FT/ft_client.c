@@ -68,7 +68,6 @@ int main(void)
 
    /* putting a file at the root is illegal */
    assert(FT_insertFile("A", NULL, 0) == CONFLICTING_PATH);
-   fprintf(stderr, "made it to custom checkpoint\n");
 
    /* After insertion, the data structure should contain every prefix
       of the inserted path, toString should return a string with these
@@ -78,6 +77,7 @@ int main(void)
    */
    assert(FT_insertDir("1root/2child/3gkid") == SUCCESS);
    assert(FT_containsDir("1root") == TRUE);
+   fprintf(stderr, "made it to custom checkpoint\n");
    assert(FT_containsFile("1root") == FALSE);
    assert(FT_containsDir("1root/2child") == TRUE);
    assert(FT_containsFile("1root/2child") == FALSE);
