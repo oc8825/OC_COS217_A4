@@ -43,7 +43,7 @@ static int FT_traversePath(Path_T oPPath, Node_T *poNFurthest)
     Node_T oNChild = NULL;
     size_t ulDepth;
     size_t i;
-    size_t ulChildID = 0; /* New add */
+    size_t ulChildID = 0;
 
     assert(oPPath != NULL);
     assert(poNFurthest != NULL);
@@ -377,7 +377,7 @@ int FT_insertFile(const char *pcPath, void *pvContents,
 
     /* Change most recently added directory to a file */
     Node_setIsFile(oNFileNode);
-    (void)Node_setContents(oNFileNode, pvContents, ulLength); /* New add */
+    (void)Node_setContents(oNFileNode, pvContents, ulLength);
 
     return SUCCESS;
 }
