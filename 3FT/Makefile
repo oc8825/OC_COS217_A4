@@ -16,5 +16,5 @@ dynarray.o: dynarray.c dynarray.h
 	gcc217 -c dynarray.c
 path.o: path.c path.h
 	gcc217 -c path.c
-nodeFT.o: nodeFT.c nodeFT.h
+nodeFT.o: nodeFT.c nodeFT.h a4def.h dynarray.h path.h
 	gcc217 -c nodeFT.c
