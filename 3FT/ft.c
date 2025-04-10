@@ -357,8 +357,8 @@ int FT_insertFile(const char *pcPath, void *pvContents,
         return iStatus;
     }
 
-    Node_setContents(oNFileNode, pvContents, ulLength);
     Node_setIsFile(oNFileNode);
+    Node_setContents(oNFileNode, pvContents, ulLength);
 
     return SUCCESS;
 }
