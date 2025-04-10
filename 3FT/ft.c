@@ -289,7 +289,7 @@ boolean FT_containsDir(const char *pcPath)
     assert(pcPath != NULL);
 
     iStatus = FT_findNode(pcPath, &oNFound);
-    if (iStatus == SUCCESS && (!Node_isFile))
+    if (iStatus == SUCCESS && (!Node_isFile(oNFound)))
     {
         return TRUE;
     }
@@ -331,10 +331,10 @@ int FT_insertFile(const char *pcPath, void *pvContents,
     /* Can't insert a file at the root */
     if (ulCount == 0)
     {
-        return CONFLICING_PATH;
+        return CONFLICTING_PATH;
     }
 
-    int iStatus = FT_insertAllDirectories(pcPath, &oNFileNode);
+    iStatus = FT_insertAllDirectories(pcPath, &oNFileNode);
     if (iStatus != SUCCESS)
     {
         return iStatus;
@@ -436,7 +436,7 @@ int FT_stat(const char *pcPath, boolean *pbIsFile, size_t *pulSize)
     if (Node_isFile(oNFound))
     {
         *pbIsFile = TRUE;
-        *ulSize = Node_getContentsSize(oNFound);
+        *pulSize = Node_getContentsSize(oNFound);
     }
     else
     {
