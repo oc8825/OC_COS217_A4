@@ -1,6 +1,3 @@
-#ifndef NODE_INCLUDED
-#define NODE_INCLUDED
-
 #include <stdlib.h>
 #include <assert.h>
 #include <string.h>
@@ -315,5 +312,3 @@ void Node_setIsFile(Node_T oNNode)
     assert(oNNode != NULL);
     oNNode->isFile = TRUE;
 }
-
-#endif
