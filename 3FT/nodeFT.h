@@ -33,6 +33,8 @@ boolean Node_isFile(Node_T oNNode);
 
 void *Node_getContents(Node_T oNNode);
 
+size_t Node_getContentsSize(Node_T oNNode);
+
 void *Node_setContents(Node_T oNNode, void *newContents, size_t newContentsLength);
 
 void Node_setIsFile(Node_T oNNode);

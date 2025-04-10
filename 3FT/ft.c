@@ -346,7 +346,7 @@ int FT_insertFile(const char *pcPath, void *pvContents,
     return SUCCESS;
 }
 
-int FT_containsFile(const char *pcPath)
+boolean FT_containsFile(const char *pcPath)
 {
     int iStatus;
     Node_T oNFound = NULL;
@@ -423,7 +423,6 @@ int FT_stat(const char *pcPath, boolean *pbIsFile, size_t *pulSize)
 {
     int iStatus;
     Node_T oNFound = NULL;
-    size_t ulSize = 0;
 
     assert(pcPath != NULL);
 

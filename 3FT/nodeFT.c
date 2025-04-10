@@ -293,6 +293,12 @@ void *Node_getContents(Node_T oNNode)
     return oNNode->contents;
 }
 
+size_t Node_getContentsSize(Node_T oNNode)
+{
+    assert(oNNode != NULL);
+    return oNNode->sizeOfContents;
+}
+
 void *Node_setContents(Node_T oNNode, void *newContents, size_t newContentsLength)
 {
     assert(oNNode != NULL);
