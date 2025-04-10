@@ -3,12 +3,12 @@ Assignment 4 readme File
 ------------------------------------------------------------------------
 Student 1: What is your name?
 
-
+Owen Clarke
 
 ------------------------------------------------------------------------
 Student 2: What is your name?
 
-
+Ben Zhou
 
 ------------------------------------------------------------------------
 Student 1: What authorized sources of information did you use to
@@ -17,7 +17,18 @@ information given in the "Policies" web page (also available on armlab
 in the file ~cos217/AuthorizedSourcesList ) to this section of the
 readme file, and edit it as appropriate.
 
+The course's lectures.
 
+The course's precepts.
+
+The course's website.
+
+Documents that are referenced directly by the course's website. Such
+documents include the course's lecture slides and precept handouts.
+
+The course's current staff members outside of class time through Ed.
+
+Current Intro Lab TAs through visits to the Intro COS Lab.
 
 ------------------------------------------------------------------------
 Student 2: What authorized sources of information did you use to
@@ -26,7 +37,19 @@ information given in the "Policies" web page (also available on armlab
 in the file ~cos217/AuthorizedSourcesList ) to this section of the
 readme file, and edit it as appropriate.
 
+The course's lectures.
 
+The course's precepts.
+
+The course's website.
+
+Documents that are referenced directly by the course's website. Such
+documents include the course's lecture slides and precept handouts.
+
+The course's current staff members outside of class time through
+office hours..
+
+The course's current staff members outside of class time through Ed.
 
 ------------------------------------------------------------------------
 Student 1: What unauthorized sources of information did you use to
@@ -40,7 +63,7 @@ nature of the interaction, may additionally require the interaction
 being reported to the Committee on Discipline. Write "None" if you used
 no unauthorized sources of information.
 
-
+None
 
 ------------------------------------------------------------------------
 Student 2: What unauthorized sources of information did you use to
@@ -54,7 +77,7 @@ nature of the interaction, may additionally require the interaction
 being reported to the Committee on Discipline. Write "None" if you used
 no unauthorized sources of information.
 
-
+None
 
 ------------------------------------------------------------------------
 Student 1: In fulfillment of the requirement from section 2.4.3 of the
@@ -64,7 +87,7 @@ guide, enter your name in the space below the following affirmation:
 This paper represents my own work in accordance with University
 regulations.
 
-
+Owen Clarke
 
 ------------------------------------------------------------------------
 Student 2: In fulfillment of the requirement from section 2.4.3 of the
@@ -74,26 +97,32 @@ guide, enter your name in the space below the following affirmation:
 This paper represents my own work in accordance with University
 regulations.
 
-
+Ben Zhou
 
 ------------------------------------------------------------------------
 Student 1: What is your assessment of the assignment? Was it helpful?
 Was it fun?
 
-
+This assignment was definitely difficult, but it forced me to really
+dig into using GDB which I have generally tried to avoid. It was
+extremely necesary to have a partner in this assignment, as doing
+so without one would have been very difficuly and time-consuming.
 
 ------------------------------------------------------------------------
 Student 2: What is your assessment of the assignment? Was it helpful?
 Was it fun?
 
-
+Not fun but definitely helpful
 
 ------------------------------------------------------------------------
 (optional) What information can you provide about your submission that
 will help your grader to grade it in the most favorable light? In
 particular, what bugs are in your submission?
 
-
+To our knowledge, there are no bugs in the submission. We pass all 
+tests in the client file and memory tests in valgrind, and all critTer
+and splint warnings we are either told to ignore or disagree with 
+below. We believe we have earned full credit on this assignment.
 
 ------------------------------------------------------------------------
 What warnings does splint generate for Part 2's checker, and what are
@@ -101,7 +130,7 @@ your disagreements with them? Copy the splint warnings here, and
 express your disagreement after each warning. If there are no
 warnings, then write "None."
 
-
+None.
 
 ------------------------------------------------------------------------
 What warnings does critTer generate on checkerDT.c, and what are your
@@ -109,7 +138,7 @@ disagreements with them? Copy the critTer warnings here, and express
 your disagreement after each warning. If there are no warnings, then
 write "None."
 
-
+None.
 
 ------------------------------------------------------------------------
 What warnings does splint generate on your Part 3 code, and what are
@@ -117,7 +146,7 @@ your disagreements with them? Copy the splint warnings here, and
 express your disagreement after each warning. If there are no
 warnings, then write "None."
 
-
+None.
 
 ------------------------------------------------------------------------
 What warnings does critTer generate on your Part 3 code, and what are
@@ -125,7 +154,18 @@ your disagreements with them? Copy the critTer warnings here, and
 express your disagreement after each warning. If there are no
 warnings, then write "None."
 
-
+ft.c: line 343: medium priority:
+Do you want to validate 'pvContents' through an assert?
+ft.c: line 446: medium priority:
+Do you want to validate 'pvNewContents' through an assert?
+nodeFT.c: line 78: medium priority:
+Do you want to validate 'oNContents' through an assert?
+nodeFT.c: line 354: medium priority:
+Do you want to validate 'newContents' through an assert?
+      
+We disagree with these warnings as it is perfectly valid for a node 
+to have null contents (ex: node is a directory or file has no
+contents).
 
 ------------------------------------------------------------------------
 For each of the five faulty BDT implementations required by Step
@@ -152,6 +192,44 @@ the error manifests itself or is "noticed" by the client.
 What are your critiques of the given DT implementations, as
 specified in Step 2.5?
 
+There are several issues present throughout dtGood.c and NodeDtGood.c,
+which don’t cause the system of files to fail during testing, but are
+simply bad practice. Here is a list of them and how to potentially fix
+them: 
 
+Inconsistent Naming Schemes
+-DT_Insert and DT_Destroy both have fully spelled out names, but DT_rm
+is abbreviated for some reason, it should just be DT_Remove. This is
+inconsistent with the rest of the program 
+-In Node_hasChild, the order of the parameters is inconsistent with
+Node_new. Node_new has oPPath coming before oNParent, while in
+Node_hasChild is the other way around. The file should have a
+consistent order for parameters that extends to every single
+parameter. 
+-The method name of Node_hasChild is also a little misleading. It
+returns a boolean, but also writes the child's index to an out
+parameter. We could perhaps split this function into two with
+consistent naming schemes, one for Node_hasChild purely returning a
+boolean, and another Node_childIndex returning the index. 
+
+Modularity: 
+-Node_addChild is only used once in NodeDTgood.c, where it is used
+only in Node_new. We could refactor the logic to be inline with
+Node_new, and eliminate unnecessary function overhead by eliminating a
+function used truly only once. 
+-Dt.c is responsible for destroying and creating nodes, but NodeDTGood
+also has logic create and free nodes, this could be a little confusing
+and could be modularized. 
+-In DT_traversePath and DT_findNode, there is similar logic when
+checking for children that could possibly be put into smaller helper
+functions to increase readability. 
+
+Naming Conventions: 
+-Node_new and Node_free should be renamed to be consistent, like
+Node_create and Node_destroy, or like Node_new and Node_delete. 
+-Node_compare and Node_compareString, it is immediately obvious what
+each function does. We don’t know one compares nodes and one a node to
+a string, so it could be renamed to Node_compareNodes and Node
+compareNodeToString.
 
 ------------------------------------------------------------------------
