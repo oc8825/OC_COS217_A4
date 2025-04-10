@@ -177,7 +177,8 @@ static int FT_findNode(const char *pcPath, Node_T *poNResult)
   Private helper function for adding all new parts of pcPath to the
   FT as directories
   Inserts a new directory into the FT with absolute path pcPath.
-  Returns SUCCESS if the new directory is inserted successfully.
+  Returns SUCCESS if the new directory is inserted successfully, and
+  sets *finalNode to the most recently added node.
   Otherwise, returns:
   * INITIALIZATION_ERROR if the FT is not in an initialized state
   * BAD_PATH if pcPath does not represent a well-formatted path
@@ -195,6 +196,7 @@ static int FT_insertAllDirectories(const char *pcPath, Node_T *finalNode)
     size_t ulNewNodes = 0;
 
     assert(pcPath != NULL);
+    assert(finalNode != NULL); /* New add */
 
     /* Ensure FT is initialized */
     if (!bIsInitialized)
@@ -286,6 +288,8 @@ static int FT_insertAllDirectories(const char *pcPath, Node_T *finalNode)
 
 int FT_insertDir(const char *pcPath)
 {
+    assert(pcPath != NULL); /* New add */
+
     Node_T oNNode = NULL;
 
     /* Use helper method to insert all parts of the path as
@@ -462,6 +466,8 @@ int FT_stat(const char *pcPath, boolean *pbIsFile, size_t *pulSize)
     Node_T oNFound = NULL;
 
     assert(pcPath != NULL);
+    assert(pbIsFile != NULL); /* New add */
+    assert(pulSize >= 0);     /* New add */
 
     iStatus = FT_findNode(pcPath, &oNFound);
     if (iStatus != SUCCESS)
