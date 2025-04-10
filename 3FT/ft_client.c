@@ -132,11 +132,11 @@ int main(void)
 
    /* Attempting to insert a child of a file is illegal */
    assert(FT_insertDir("1root/2third/3nopeD") == NOT_A_DIRECTORY);
+   fprintf(stderr, "Custom checkpoint \n");
    assert(FT_containsDir("1root/2third/3nopeD") == FALSE);
    assert(FT_insertFile("1root/2third/3nopeF", NULL, 0) ==
           NOT_A_DIRECTORY);
    assert(FT_containsFile("1root/2third/3nopeF") == FALSE);
-   fprintf(stderr, "Custom checkpoint \n");
 
    /* calling rm* on a path that doesn't exist should return
       NO_SUCH_PATH, but on a path that does exist with the right
