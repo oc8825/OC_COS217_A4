@@ -328,7 +328,6 @@ void *Node_setContents(Node_T oNNode, void *newContents, size_t newContentsLengt
     void *oldContents;
 
     assert(oNNode != NULL);
-    assert(newContents != NULL);
     assert(oNNode->isFile == TRUE);
 
     oldContents = oNNode->contents;
