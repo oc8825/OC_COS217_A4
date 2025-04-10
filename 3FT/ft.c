@@ -288,9 +288,9 @@ static int FT_insertAllDirectories(const char *pcPath, Node_T *finalNode)
 
 int FT_insertDir(const char *pcPath)
 {
-    assert(pcPath != NULL); /* New add */
-
     Node_T oNNode = NULL;
+
+    assert(pcPath != NULL); /* New add */
 
     /* Use helper method to insert all parts of the path as
     directories */
@@ -467,7 +467,7 @@ int FT_stat(const char *pcPath, boolean *pbIsFile, size_t *pulSize)
 
     assert(pcPath != NULL);
     assert(pbIsFile != NULL); /* New add */
-    assert(pulSize >= 0);     /* New add */
+    assert(pulSize != NULL);  /* New add */
 
     iStatus = FT_findNode(pcPath, &oNFound);
     if (iStatus != SUCCESS)
