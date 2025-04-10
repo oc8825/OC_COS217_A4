@@ -80,7 +80,7 @@ int Node_new(Path_T oPPath, Node_T oNParent, Node_T *poNResult,
     Path_T oPParentPath = NULL;
     Path_T oPNewPath = NULL;
     size_t ulParentDepth;
-    size_t ulIndex;
+    size_t ulIndex = 0; /* New add */
     int iStatus;
 
     assert(oPPath != NULL);
