@@ -88,6 +88,8 @@ int Node_new(Path_T oPPath, Node_T oNParent, Node_T *poNResult, boolean isFile, 
     /* validate and set the new node's parent */
     if (oNParent != NULL)
     {
+        size_t ulSharedDepth;
+
         /* parent must be a directory */
         if (Node_isFile(oNParent))
         {
@@ -96,8 +98,6 @@ int Node_new(Path_T oPPath, Node_T oNParent, Node_T *poNResult, boolean isFile, 
             *poNResult = NULL;
             return NOT_A_DIRECTORY;
         }
-
-        size_t ulSharedDepth;
 
         oPParentPath = oNParent->oPPath;
         ulParentDepth = Path_getDepth(oPParentPath);
