@@ -288,6 +288,8 @@ int FT_insertDir(const char *pcPath)
 {
     Node_T oNNode = NULL;
 
+    /* Use helper method to insert all parts of the path as
+    directories */
     return FT_insertAllDirectories(pcPath, &oNNode);
 }
 
@@ -298,6 +300,7 @@ boolean FT_containsDir(const char *pcPath)
 
     assert(pcPath != NULL);
 
+    /* Only return TRUE if found pcPath and its a directory */
     iStatus = FT_findNode(pcPath, &oNFound);
     if (iStatus == SUCCESS && (!Node_isFile(oNFound)))
     {
@@ -315,9 +318,9 @@ int FT_rmDir(const char *pcPath)
 
     iStatus = FT_findNode(pcPath, &oNFound);
 
+    /* Only remove if found pcPath and its a directory */
     if (iStatus != SUCCESS)
         return iStatus;
-
     if (Node_isFile(oNFound))
     {
         return NOT_A_DIRECTORY;
@@ -359,12 +362,15 @@ int FT_insertFile(const char *pcPath, void *pvContents,
         return CONFLICTING_PATH;
     }
 
+    /* Use helper method to insert all parts of the path as
+    directories */
     iStatus = FT_insertAllDirectories(pcPath, &oNFileNode);
     if (iStatus != SUCCESS)
     {
         return iStatus;
     }
 
+    /* Change most recently added directory to a file */
     Node_setIsFile(oNFileNode);
     Node_setContents(oNFileNode, pvContents, ulLength);
 
