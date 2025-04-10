@@ -76,8 +76,8 @@ int main(void)
       return CONFLICTING_PATH.
    */
    assert(FT_insertDir("1root/2child/3gkid") == SUCCESS);
-   fprintf(stderr, "made it to custom checkpoint\n");
    assert(FT_containsDir("1root") == TRUE);
+   fprintf(stderr, "Custom checkpoint 1");
    assert(FT_containsFile("1root") == FALSE);
    assert(FT_containsDir("1root/2child") == TRUE);
    assert(FT_containsFile("1root/2child") == FALSE);
