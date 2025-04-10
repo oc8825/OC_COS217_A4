@@ -5,11 +5,11 @@
 #include "a4def.h"
 #include "path.h"
 
-/* A Node_T is a node in a File Tree */
+/* A Node_T is a node in a File Tree   */
 typedef struct node *Node_T;
 
-int Node_new(boolean isFile, Path_T oPPath, Node_T oNParent,
-             Node_T *poNResult);
+int Node_new(Path_T oPPath, Node_T oNParent,
+             Node_T *poNResult, boolean isFile, void *oNContents, size_t contentSize);
 
 size_t Node_free(Node_T oNNode);
 
@@ -32,5 +32,9 @@ char *Node_toString(Node_T oNNode);
 boolean Node_isFile(Node_T oNNode);
 
 void *Node_getContents(Node_T oNNode);
+
+void *Node_setContents(Node_T oNNode, void *newContents, size_t newContentsLength);
+
+void Node_setIsFile(Node_T oNNode);
 
 #endif
