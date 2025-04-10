@@ -78,6 +78,7 @@ int main(void)
    assert(FT_insertDir("1root/2child/3gkid") == SUCCESS);
    assert(FT_containsDir("1root") == TRUE);
    assert(FT_containsFile("1root") == FALSE);
+   fprintf(stderr, "made it to custom checkpoint\n");
    assert(FT_containsDir("1root/2child") == TRUE);
    assert(FT_containsFile("1root/2child") == FALSE);
    assert(FT_containsDir("1root/2child/3gkid") == TRUE);
@@ -94,7 +95,6 @@ int main(void)
    assert(FT_insertDir("1otherroot") == CONFLICTING_PATH);
    assert(FT_insertDir("1otherroot/2d") == CONFLICTING_PATH);
    assert(FT_insertFile("1otherroot/2f", NULL, 0) == CONFLICTING_PATH);
-   fprintf(stderr, "made it to custom checkpoint\n");
 
    /* Trying to insert a third child should succeed, unlike in BDT */
    assert(FT_insertFile("1root/2third", NULL, 0) == SUCCESS);
