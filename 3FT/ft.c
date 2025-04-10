@@ -280,7 +280,7 @@ int FT_insertDir(const char *pcPath)
 {
     Node_T *oNNode = NULL;
 
-    return FT_insertAllDirectories(pcPath, oNNode);
+    return FT_insertAllDirectories(pcPath, &oNNode);
 }
 
 boolean FT_containsDir(const char *pcPath)
