@@ -1,3 +1,8 @@
+/* nodeFT.c */
+/* Ben Zhou and Owen Clarke */
+/* Some contents are modified from nodeDTGood.c by Christoper
+Moretti */
+
 #include <stdlib.h>
 #include <assert.h>
 #include <string.h>
@@ -54,7 +59,8 @@ static int Node_compareString(const Node_T oNFirst,
     return Path_compareString(oNFirst->oPPath, pcSecond);
 }
 
-int Node_new(Path_T oPPath, Node_T oNParent, Node_T *poNResult, boolean isFile, void *oNContents, size_t contentSize)
+int Node_new(Path_T oPPath, Node_T oNParent, Node_T *poNResult,
+             boolean isFile, void *oNContents, size_t contentSize)
 {
     struct node *psNew;
     Path_T oPParentPath = NULL;
@@ -64,6 +70,7 @@ int Node_new(Path_T oPPath, Node_T oNParent, Node_T *poNResult, boolean isFile, 
     int iStatus;
 
     assert(oPPath != NULL);
+    assert(poNResult != NULL); /* new add */
 
     /* allocate space for a new node */
     psNew = malloc(sizeof(struct node));
@@ -157,7 +164,8 @@ int Node_new(Path_T oPPath, Node_T oNParent, Node_T *poNResult, boolean isFile, 
             return MEMORY_ERROR;
         }
     }
-    /* If it is a file, set isFile True, set contents to input, set contents length and set children to NULL*/
+    /* If it is a file, set isFile True, set contents to input, set
+    contents length and set children to NULL*/
     else
     {
         psNew->oDChildren = NULL;
@@ -243,8 +251,10 @@ boolean Node_hasChild(Node_T oNParent, Path_T oPPath,
 
     /* *pulChildID is the index into oNParent->oDChildren */
     return DynArray_bsearch(oNParent->oDChildren,
-                            (char *)Path_getPathname(oPPath), pulChildID,
-                            (int (*)(const void *, const void *))Node_compareString);
+                            (char *)Path_getPathname(oPPath),
+                            pulChildID,
+                            (int (*)(const void *, const void *))
+                                Node_compareString);
 }
 
 size_t Node_getNumChildren(Node_T oNParent)
@@ -263,7 +273,8 @@ int Node_getChild(Node_T oNParent, size_t ulChildID,
     assert(oNParent != NULL);
     assert(poNResult != NULL);
 
-    /* If its a file, then this is not a directory and returns that status*/
+    /* If its a file, then this is not a directory and returns that
+    status*/
     if (oNParent->isFile == TRUE)
     {
         return NOT_A_DIRECTORY;
@@ -278,7 +289,8 @@ int Node_getChild(Node_T oNParent, size_t ulChildID,
         }
         else
         {
-            *poNResult = DynArray_get(oNParent->oDChildren, ulChildID);
+            *poNResult = DynArray_get(oNParent->oDChildren,
+                                      ulChildID);
             return SUCCESS;
         }
     }
@@ -309,7 +321,8 @@ char *Node_toString(Node_T oNNode)
     if (copyPath == NULL)
         return NULL;
     else
-        return strcpy(copyPath, Path_getPathname(Node_getPath(oNNode)));
+        return strcpy(copyPath,
+                      Path_getPathname(Node_getPath(oNNode)));
 }
 
 boolean Node_isFile(Node_T oNNode)
@@ -330,13 +343,15 @@ size_t Node_getContentsSize(Node_T oNNode)
     return oNNode->sizeOfContents;
 }
 
-void *Node_setContents(Node_T oNNode, void *newContents, size_t newContentsLength)
+void *Node_setContents(Node_T oNNode, void *newContents,
+                       size_t newContentsLength)
 {
     void *oldContents;
 
     assert(oNNode != NULL);
     assert(oNNode->isFile == TRUE);
-    /* Keeps track of old contents to return and sets new contents accordingly */
+    /* Keeps track of old contents to return and sets new contents
+    accordingly */
 
     oldContents = oNNode->contents;
     oNNode->contents = newContents;
