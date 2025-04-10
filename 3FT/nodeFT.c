@@ -5,9 +5,7 @@
 #include "nodeFT.h"
 #include "a4def.h"
 
-/* A Node_T is a node in a File Tree */
-/* A node in a DT    */
-
+/* A node in a FT */
 struct node
 {
     /* the object corresponding to the node's absolute path */
@@ -16,11 +14,11 @@ struct node
     Node_T oNParent;
     /* the object containing links to this node's children */
     DynArray_T oDChildren;
-
+    /* the boolean determining if it is a file or not*/
     boolean isFile;
-
+    /* the pointer containing the contents if its a file */
     void *contents;
-
+    /* the size of the contents if its a file*/
     size_t sizeOfContents;
 };
 
@@ -145,6 +143,7 @@ int Node_new(Path_T oPPath, Node_T oNParent, Node_T *poNResult, boolean isFile, 
     psNew->oNParent = oNParent;
 
     /* initialize the new node */
+    /* If it not a file, set isFile to False, contents to NULL*/
     if (isFile == FALSE)
     {
         psNew->isFile = FALSE;
@@ -158,6 +157,7 @@ int Node_new(Path_T oPPath, Node_T oNParent, Node_T *poNResult, boolean isFile, 
             return MEMORY_ERROR;
         }
     }
+    /* If it is a file, set isFile True, set contents to input, set contents length and set children to NULL*/
     else
     {
         psNew->oDChildren = NULL;
@@ -180,7 +180,6 @@ int Node_new(Path_T oPPath, Node_T oNParent, Node_T *poNResult, boolean isFile, 
     }
 
     *poNResult = psNew;
-
     return SUCCESS;
 }
 
@@ -201,6 +200,8 @@ size_t Node_free(Node_T oNNode)
             (void)DynArray_removeAt(oNNode->oNParent->oDChildren,
                                     ulIndex);
     }
+
+    /* Frees children only if it is not a File*/
     if (oNNode->isFile != TRUE)
     {
         /* recursively remove children */
@@ -234,6 +235,7 @@ boolean Node_hasChild(Node_T oNParent, Path_T oPPath,
     assert(oPPath != NULL);
     assert(pulChildID != NULL);
 
+    /* Files have no children */
     if (oNParent->isFile == TRUE)
     {
         return FALSE;
@@ -248,7 +250,7 @@ boolean Node_hasChild(Node_T oNParent, Path_T oPPath,
 size_t Node_getNumChildren(Node_T oNParent)
 {
     assert(oNParent != NULL);
-
+    /* Files have no children */
     if (oNParent->isFile == TRUE)
         return 0;
 
@@ -258,17 +260,16 @@ size_t Node_getNumChildren(Node_T oNParent)
 int Node_getChild(Node_T oNParent, size_t ulChildID,
                   Node_T *poNResult)
 {
-
     assert(oNParent != NULL);
     assert(poNResult != NULL);
 
+    /* If its a file, then this is not a directory and returns that status*/
     if (oNParent->isFile == TRUE)
     {
         return NOT_A_DIRECTORY;
     }
     else
     {
-
         /* ulChildID is the index into oNParent->oDChildren */
         if (ulChildID >= Node_getNumChildren(oNParent))
         {
@@ -335,12 +336,14 @@ void *Node_setContents(Node_T oNNode, void *newContents, size_t newContentsLengt
 
     assert(oNNode != NULL);
     assert(oNNode->isFile == TRUE);
+    /* Keeps track of old contents to return and sets new contents accordingly */
 
     oldContents = oNNode->contents;
     oNNode->contents = newContents;
     oNNode->sizeOfContents = newContentsLength;
     return oldContents;
 }
+
 void Node_setIsFile(Node_T oNNode)
 {
     assert(oNNode != NULL);
