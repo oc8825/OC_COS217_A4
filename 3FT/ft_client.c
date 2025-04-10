@@ -44,7 +44,6 @@ int main(void)
       contains* should still return FALSE for any non-NULL string,
       and toString should return the empty string.
    */
-   fprintf(stderr, "made it past initiation\n");
    assert(FT_init() == SUCCESS);
    assert(FT_containsDir("1root/2child/3gkid") == FALSE);
    assert(FT_containsFile("1root/2child/3gkid/4ggk") == FALSE);
@@ -68,6 +67,7 @@ int main(void)
    assert(FT_insertFile("1root//2child", NULL, 0) == BAD_PATH);
 
    /* putting a file at the root is illegal */
+   fprintf(stderr, "made it to custom checkpoint\n");
    assert(FT_insertFile("A", NULL, 0) == CONFLICTING_PATH);
 
    /* After insertion, the data structure should contain every prefix
