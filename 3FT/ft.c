@@ -334,6 +334,13 @@ int FT_insertFile(const char *pcPath, void *pvContents,
         return INITIALIZATION_ERROR;
     }
 
+    /* Check is well formatted path */
+    iStatus = Path_new(pcPath, &oNFileNode) if (iStatus != SUCCESS)
+    {
+        return iStatus;
+    }
+    Path_free(oNFileNode);
+
     /* Can't insert a file at the root */
     if (ulCount == 0)
     {
