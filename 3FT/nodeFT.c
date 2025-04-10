@@ -24,6 +24,38 @@ struct node
     size_t sizeOfContents;
 };
 
+/*
+  Links new child oNChild into oNParent's children array at index
+  ulIndex. Returns SUCCESS if the new child was added successfully,
+  or  MEMORY_ERROR if allocation fails adding oNChild to the array.
+*/
+static int Node_addChild(Node_T oNParent, Node_T oNChild,
+                         size_t ulIndex)
+{
+    assert(oNParent != NULL);
+    assert(oNChild != NULL);
+
+    if (DynArray_addAt(oNParent->oDChildren, ulIndex, oNChild))
+        return SUCCESS;
+    else
+        return MEMORY_ERROR;
+}
+
+/*
+  Compares the string representation of oNfirst with a string
+  pcSecond representing a node's path.
+  Returns <0, 0, or >0 if oNFirst is "less than", "equal to", or
+  "greater than" pcSecond, respectively.
+*/
+static int Node_compareString(const Node_T oNFirst,
+                              const char *pcSecond)
+{
+    assert(oNFirst != NULL);
+    assert(pcSecond != NULL);
+
+    return Path_compareString(oNFirst->oPPath, pcSecond);
+}
+
 int Node_new(Path_T oPPath, Node_T oNParent, Node_T *poNResult, boolean isFile, void *oNContents, size_t contentSize)
 {
     struct node *psNew;
