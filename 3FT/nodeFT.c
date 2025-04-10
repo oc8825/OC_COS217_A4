@@ -328,10 +328,12 @@ size_t Node_getContentsSize(Node_T oNNode)
 
 void *Node_setContents(Node_T oNNode, void *newContents, size_t newContentsLength)
 {
+    void *oldContents;
+
     assert(oNNode != NULL);
     assert(newContents != NULL);
     assert(oNNode->isFile == TRUE);
-    void *oldContents;
+
     oldContents = oNNode->contents;
     oNNode->contents = newContents;
     oNNode->sizeOfContents = newContentsLength;
