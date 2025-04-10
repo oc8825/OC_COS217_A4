@@ -136,6 +136,7 @@ int main(void)
    assert(FT_insertFile("1root/2third/3nopeF", NULL, 0) ==
           NOT_A_DIRECTORY);
    assert(FT_containsFile("1root/2third/3nopeF") == FALSE);
+   fprintf(stderr, "Custom checkpoint \n");
 
    /* calling rm* on a path that doesn't exist should return
       NO_SUCH_PATH, but on a path that does exist with the right
