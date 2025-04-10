@@ -28,6 +28,20 @@ struct node
 };
 
 /*
+ Helper method for comparisons
+ Compares oNFirst and oNSecond lexicographically based on their paths.
+ Returns <0, 0, or >0 if onFirst is "less than", "equal to", or
+ "greater than" oNSecond, respectively.
+*/
+static int Node_compare(Node_T oNFirst, Node_T oNSecond)
+{
+    assert(oNFirst != NULL);
+    assert(oNSecond != NULL);
+
+    return Path_comparePath(oNFirst->oPPath, oNSecond->oPPath);
+}
+
+/*
   Links new child oNChild into oNParent's children array at index
   ulIndex. Returns SUCCESS if the new child was added successfully,
   or  MEMORY_ERROR if allocation fails adding oNChild to the array.
@@ -301,14 +315,6 @@ Node_T Node_getParent(Node_T oNNode)
     assert(oNNode != NULL);
 
     return oNNode->oNParent;
-}
-
-int Node_compare(Node_T oNFirst, Node_T oNSecond)
-{
-    assert(oNFirst != NULL);
-    assert(oNSecond != NULL);
-
-    return Path_comparePath(oNFirst->oPPath, oNSecond->oPPath);
 }
 
 char *Node_toString(Node_T oNNode)

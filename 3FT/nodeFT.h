@@ -82,7 +82,7 @@ Node_T Node_getParent(Node_T oNNode);
  Returns <0, 0, or >0 if onFirst is "less than", "equal to", or
  "greater than" oNSecond, respectively.
 */
-int Node_compare(Node_T oNFirst, Node_T oNSecond);
+/* int Node_compare(Node_T oNFirst, Node_T oNSecond); */
 
 /*
  Returns a string representation for oNNode, or NULL if
