@@ -67,7 +67,6 @@ int main(void)
    assert(FT_insertFile("1root//2child", NULL, 0) == BAD_PATH);
 
    /* putting a file at the root is illegal */
-   fprintf(stderr, "made it to custom checkpoint\n");
    assert(FT_insertFile("A", NULL, 0) == CONFLICTING_PATH);
 
    /* After insertion, the data structure should contain every prefix
@@ -95,6 +94,7 @@ int main(void)
    assert(FT_insertDir("1otherroot") == CONFLICTING_PATH);
    assert(FT_insertDir("1otherroot/2d") == CONFLICTING_PATH);
    assert(FT_insertFile("1otherroot/2f", NULL, 0) == CONFLICTING_PATH);
+   fprintf(stderr, "made it to custom checkpoint\n");
 
    /* Trying to insert a third child should succeed, unlike in BDT */
    assert(FT_insertFile("1root/2third", NULL, 0) == SUCCESS);
