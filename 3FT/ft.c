@@ -300,12 +300,13 @@ boolean FT_containsDir(const char *pcPath)
 
     assert(pcPath != NULL);
 
-    /* Only return TRUE if found pcPath and its a directory */
+    /* Only return TRUE if found pcPath and it's a directory */
     iStatus = FT_findNode(pcPath, &oNFound);
     if (iStatus == SUCCESS && (!Node_isFile(oNFound)))
     {
         return TRUE;
     }
+
     return FALSE;
 }
 
@@ -384,11 +385,13 @@ boolean FT_containsFile(const char *pcPath)
 
     assert(pcPath != NULL);
 
+    /* Only return TRUE if found pcPath and it's a file */
     iStatus = FT_findNode(pcPath, &oNFound);
     if (iStatus == SUCCESS && Node_isFile(oNFound))
     {
         return TRUE;
     }
+
     return FALSE;
 }
 
@@ -399,8 +402,8 @@ int FT_rmFile(const char *pcPath)
 
     assert(pcPath != NULL);
 
+    /* Only remove if found pcPath and its a file */
     iStatus = FT_findNode(pcPath, &oNFound);
-
     if (iStatus != SUCCESS)
         return iStatus;
 
@@ -424,11 +427,13 @@ void *FT_getFileContents(const char *pcPath)
 
     assert(pcPath != NULL);
 
+    /* Ensure pcPath is a file before editing contents */
     iStatus = FT_findNode(pcPath, &oNFound);
     if (iStatus == SUCCESS && Node_isFile(oNFound))
     {
         pvContents = Node_getContents(oNFound);
     }
+
     return pvContents;
 }
 
@@ -441,6 +446,7 @@ void *FT_replaceFileContents(const char *pcPath, void *pvNewContents,
 
     assert(pcPath != NULL);
 
+    /* Ensure pcPath is a file before editing contents */
     iStatus = FT_findNode(pcPath, &oNFound);
     if (iStatus == SUCCESS && Node_isFile(oNFound))
     {
@@ -463,6 +469,8 @@ int FT_stat(const char *pcPath, boolean *pbIsFile, size_t *pulSize)
         return iStatus;
     }
 
+    /* Found pcPath, update pbIsFile and pulSize based on if it
+    is a file or not */
     if (Node_isFile(oNFound))
     {
         *pbIsFile = TRUE;
