@@ -265,6 +265,11 @@ static int FT_insertAllDirectories(const char *pcPath, Node_T *finalNode)
         if (oNFirstNew == NULL)
             oNFirstNew = oNCurr;
         ulIndex++;
+
+        if (Node_isFile(oCurr))
+        {
+            return NOT_A_DIRECTORY;
+        }
     }
 
     Path_free(oPPath);
