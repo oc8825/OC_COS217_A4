@@ -278,7 +278,7 @@ static int FT_insertAllDirectories(const char *pcPath, Node_T *finalNode)
 
 int FT_insertDir(const char *pcPath)
 {
-    Node_T *oNNode = NULL;
+    Node_T oNNode = NULL;
 
     return FT_insertAllDirectories(pcPath, &oNNode);
 }
