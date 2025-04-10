@@ -325,6 +325,7 @@ int FT_insertFile(const char *pcPath, void *pvContents,
 {
     int iStatus;
     Node_T oNFileNode = NULL;
+    Path_T pPCheckValidPath = NULL;
 
     assert(pcPath != NULL);
 
@@ -335,11 +336,12 @@ int FT_insertFile(const char *pcPath, void *pvContents,
     }
 
     /* Check is well formatted path */
-    iStatus = Path_new(pcPath, &oNFileNode) if (iStatus != SUCCESS)
+    iStatus = Path_new(pcPath, &pPCheckValidPath);
+    if (iStatus != SUCCESS)
     {
         return iStatus;
     }
-    Path_free(oNFileNode);
+    Path_free(pPCheckValidPath);
 
     /* Can't insert a file at the root */
     if (ulCount == 0)
