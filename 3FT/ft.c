@@ -18,7 +18,7 @@
   and files, represented as an AO with 3 state variables:
 */
 
-/* 1. a flag for bring in an initialized state (TRUE) or not (FALSE) */
+/* 1. a flag for being in an initialized state (TRUE) or not (FALSE) */
 static boolean bIsInitialized;
 /* 2. a pointer to the root node in the hierarchy */
 static Node_T oNRoot;
@@ -55,13 +55,13 @@ static int FT_traversePath(Path_T oPPath, Node_T *poNFurthest)
         return SUCCESS;
     }
 
+    /* Ensure valid and nonconflicting path */
     iStatus = Path_prefix(oPPath, 1, &oPPrefix);
     if (iStatus != SUCCESS)
     {
         *poNFurthest = NULL;
         return iStatus;
     }
-
     if (Path_comparePath(Node_getPath(oNRoot), oPPrefix))
     {
         Path_free(oPPrefix);
@@ -71,6 +71,7 @@ static int FT_traversePath(Path_T oPPath, Node_T *poNFurthest)
     Path_free(oPPrefix);
     oPPrefix = NULL;
 
+    /* Continue down FT as far as possible */
     oNCurr = oNRoot;
     ulDepth = Path_getDepth(oPPath);
     for (i = 2; i <= ulDepth; i++)
