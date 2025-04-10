@@ -77,7 +77,6 @@ int main(void)
    */
    assert(FT_insertDir("1root/2child/3gkid") == SUCCESS);
    assert(FT_containsDir("1root") == TRUE);
-   fprintf(stderr, "Custom checkpoint 1");
    assert(FT_containsFile("1root") == FALSE);
    assert(FT_containsDir("1root/2child") == TRUE);
    assert(FT_containsFile("1root/2child") == FALSE);
