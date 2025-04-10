@@ -66,7 +66,6 @@ int Node_new(Path_T oPPath, Node_T oNParent, Node_T *poNResult, boolean isFile, 
     int iStatus;
 
     assert(oPPath != NULL);
-    assert(oNParent == NULL);
 
     /* allocate space for a new node */
     psNew = malloc(sizeof(struct node));
@@ -172,8 +171,6 @@ int Node_new(Path_T oPPath, Node_T oNParent, Node_T *poNResult, boolean isFile, 
     }
 
     *poNResult = psNew;
-
-    assert(oNParent == NULL);
 
     return SUCCESS;
 }
