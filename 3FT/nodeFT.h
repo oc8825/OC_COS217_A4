@@ -120,7 +120,7 @@ void *Node_setContents(Node_T oNNode, void *newContents,
                        size_t newContentsLength);
 
 /*
- Changes the isFile boolean of a oNNOde, setting it to TRUE.
+ Changes the isFile boolean of a oNNode, setting it to TRUE.
 */
 void Node_setIsFile(Node_T oNNode);
 
