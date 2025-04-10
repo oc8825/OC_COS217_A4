@@ -111,7 +111,7 @@ int Node_new(Path_T oPPath, Node_T oNParent, Node_T *poNResult, boolean isFile, 
             *poNResult = NULL;
             return NO_SUCH_PATH;
         }
-
+        ulIndex = DynArray_getLength(oNParent->oDChildren);
         /* parent must not already have child with this path */
         if (Node_hasChild(oNParent, oPPath, &ulIndex))
         {
