@@ -128,12 +128,14 @@ static int FT_findNode(const char *pcPath, Node_T *poNResult)
     assert(pcPath != NULL);
     assert(poNResult != NULL);
 
+    /* Ensure FT is initialized */
     if (!bIsInitialized)
     {
         *poNResult = NULL;
         return INITIALIZATION_ERROR;
     }
 
+    /* Ensure well formatted path */
     iStatus = Path_new(pcPath, &oPPath);
     if (iStatus != SUCCESS)
     {
@@ -141,6 +143,7 @@ static int FT_findNode(const char *pcPath, Node_T *poNResult)
         return iStatus;
     }
 
+    /* Search for specific node using traversePath */
     iStatus = FT_traversePath(oPPath, &oNFound);
     if (iStatus != SUCCESS)
     {
@@ -149,13 +152,14 @@ static int FT_findNode(const char *pcPath, Node_T *poNResult)
         return iStatus;
     }
 
+    /* Didn't reach correct oPPath in traversing tree, oPPath not in
+    tree */
     if (oNFound == NULL)
     {
         Path_free(oPPath);
         *poNResult = NULL;
         return NO_SUCH_PATH;
     }
-
     if (Path_comparePath(Node_getPath(oNFound), oPPath) != 0)
     {
         Path_free(oPPath);
@@ -163,6 +167,7 @@ static int FT_findNode(const char *pcPath, Node_T *poNResult)
         return NO_SUCH_PATH;
     }
 
+    /* Successfully found node */
     Path_free(oPPath);
     *poNResult = oNFound;
     return SUCCESS;
@@ -191,10 +196,11 @@ static int FT_insertAllDirectories(const char *pcPath, Node_T *finalNode)
 
     assert(pcPath != NULL);
 
-    /* validate pcPath and generate a Path_T for it */
+    /* Ensure FT is initialized */
     if (!bIsInitialized)
         return INITIALIZATION_ERROR;
 
+    /* validate pcPath and generate a Path_T for it */
     iStatus = Path_new(pcPath, &oPPath);
     if (iStatus != SUCCESS)
         return iStatus;
@@ -222,7 +228,7 @@ static int FT_insertAllDirectories(const char *pcPath, Node_T *finalNode)
     {
         ulIndex = Path_getDepth(Node_getPath(oNCurr)) + 1;
 
-        /* oNCurr is the node we're trying to insert */
+        /* check if oNCurr is already the node we want to insert */
         if (ulIndex == ulDepth + 1 && !Path_comparePath(oPPath,
                                                         Node_getPath(oNCurr)))
         {
@@ -269,6 +275,7 @@ static int FT_insertAllDirectories(const char *pcPath, Node_T *finalNode)
     }
 
     Path_free(oPPath);
+
     /* update FT state variables to reflect insertion */
     if (oNRoot == NULL)
         oNRoot = oNFirstNew;
