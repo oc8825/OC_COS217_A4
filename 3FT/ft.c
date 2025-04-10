@@ -83,13 +83,6 @@ static int FT_traversePath(Path_T oPPath, Node_T *poNFurthest)
         }
         if (Node_hasChild(oNCurr, oPPrefix, &ulChildID))
         {
-            /* We found an ancestor that's a file, there won't be
-            any children below this */
-            if (Node_isFile(oNChild))
-            {
-                return NOT_A_DIRECTORY;
-            }
-
             /* go to that child and continue with next prefix */
             Path_free(oPPrefix);
             oPPrefix = NULL;
@@ -254,7 +247,7 @@ static int FT_insertAllDirectories(const char *pcPath, Node_T *finalNode)
         }
 
         /* insert the new node for this level */
-        iStatus = Node_new(FALSE, oPPrefix, oNCurr, &oNNewNode, NULL, 0);
+        iStatus = Node_new(oPPrefix, oNCurr, &oNNewNode, FALSE, NULL, 0);
         if (iStatus != SUCCESS)
         {
             Path_free(oPPath);
@@ -347,13 +340,8 @@ int FT_insertFile(const char *pcPath, void *pvContents,
         return iStatus;
     }
 
-    iStatus = Node_setContents(oNFileNode, pvContents, ulLength);
-    if (iStatus != SUCCESS)
-    {
-        return iStatus;
-    }
-
-    Node_setIsFile(oNFileNode, TRUE);
+    Node_setContents(oNFileNode, pvContents, ulLength);
+    Node_setIsFile(oNFileNode);
 
     return SUCCESS;
 }
