@@ -328,6 +328,12 @@ int FT_insertFile(const char *pcPath, void *pvContents,
 
     assert(pcPath != NULL);
 
+    /* Check is initialized */
+    if (!bIsInitialized)
+    {
+        return INITIALIZATION_ERROR;
+    }
+
     /* Can't insert a file at the root */
     if (ulCount == 0)
     {
